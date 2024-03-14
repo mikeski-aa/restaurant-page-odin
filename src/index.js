@@ -8,6 +8,7 @@ import chili from "./images/chiliImg.jpg";
 import cuscus from "./images/cuscusImg.jpeg";
 import salmon from "./images/salmonImg.jpg";
 import soup from "./images/soupImg.jpg";
+import location from "./images/location.png";
 
 // create content container
 const createContainer = () => {
@@ -79,16 +80,27 @@ const clearContainer = () => {
 const menuButtonActions = (buttonId) => {
   let btn = document.querySelector(`${buttonId}`);
   btn.addEventListener("click", () => {
+    clearContainer();
     switch (buttonId) {
       case "#menu":
-        clearContainer();
+        
         renderMenuPage();
-        menuButtonActions("#home");
+
         break;
       case "#home":
-        clearContainer();
+     
         renderFirstPage();
-        menuButtonActions("#menu");
+
+        break;
+      case "#about":
+  
+        renderAboutPage();
+
+        break;
+      case "#location":
+      
+        renderLocationPage();
+
         break;
     }
   });
@@ -165,10 +177,41 @@ function renderMenuPage() {
   secondPage.addDiv(
     "A rich dark chocolate mousse infused with a hint of chili pepper, served in a dark chocolate cup and garnished with candied pumpkin seeds. (Vegan)"
   );
+  secondPage.addFooter();
+}
+
+// function to render about page
+
+function renderAboutPage() {
+  const aboutPage = domComponents();
+  aboutPage.content.classList.add("aboutPage");
+
+  aboutPage.addTitle("About Arbor Magna", "h1");
+  aboutPage.addImage(restaurantInside);
+  aboutPage.addDiv(
+    `Arbor Magna, meaning "Great Tree," isn't just a Berlin restaurant; it's a historical culinary journey. Founded by archaeologist couple Amelia and David, the restaurant uses fresh ingredients to reimagine dishes from forgotten civilizations. Sunlight spills through murals depicting botanical wonders, casting warmth on exposed brick walls and emerald green booths. Antique brass lights and gentle conversation create a refined atmosphere.`
+  );
+  aboutPage.addDiv(
+    `Amelia's menu explores the past with a modern touch. Roman flatbreads with truffle honey or Viking-inspired boar with berry reduction share space with modern creations – think molecular foams infused with ancient herbs. The knowledgeable staff, some with backgrounds in history, act as your guides, sharing the stories behind each dish. From pre-dinner drinks inspired by historical libations to after-dinner botanical curiosities, Arbor Magna offers a truly immersive dining experience.`
+  );
+
+  aboutPage.addFooter();
+}
+// function to render map page
+function renderLocationPage() {
+  const locationPage = domComponents();
+  locationPage.content.classList.add("locationPage");
+
+  locationPage.addTitle("Where to find us", "h1");
+  locationPage.addDiv(`52.509434, 13.289474`);
+  locationPage.addImage(location);
+
+  locationPage.addFooter();
 }
 
 // test();
 renderFirstPage();
+menuButtonActions("#home");
 menuButtonActions("#menu");
 menuButtonActions("#about");
 menuButtonActions("#location");
