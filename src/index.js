@@ -69,6 +69,12 @@ const clearContainer = () => {
 };
 
 //function to add new button functionality and remove content
+const menuButtonActions = (buttonId) => {
+  let btn = document.querySelector(`${buttonId}`);
+  btn.addEventListener("click", () => {
+    clearContainer();
+  });
+};
 
 // IIFE to render first page on page load
 function renderFirstPage() {
@@ -98,4 +104,7 @@ function renderFirstPage() {
 
 // test();
 renderFirstPage();
+menuButtonActions('#menu');
+menuButtonActions('#about');
+menuButtonActions('#location');
 
