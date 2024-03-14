@@ -5,10 +5,9 @@ import foodPics from "./images/foodPics.jpg";
 import restaurantInside from "./images/restaurantInside.jpg";
 import cheeseCake from "./images/cheesecakeImg.jpg";
 import chili from "./images/chiliImg.jpg";
-import cuscus from "./images/cuscusImg.jpg";
+import cuscus from "./images/cuscusImg.jpeg";
 import salmon from "./images/salmonImg.jpg";
 import soup from "./images/soupImg.jpg";
-
 
 // create content container
 const createContainer = () => {
@@ -18,11 +17,11 @@ const createContainer = () => {
   body.appendChild(newContent);
 };
 
-// factory function to create the first page and the main content elements
+// factory function to create different DOM elements
 const domComponents = () => {
   createContainer();
   let content = document.querySelector(".content");
-  content.classList.add('homePage');
+
   const addDiv = (text) => {
     let newDiv = document.createElement("div");
     let newPara = document.createElement("p");
@@ -42,8 +41,8 @@ const domComponents = () => {
     content.appendChild(myIcon);
   };
 
-  const addTitle = (title) => {
-    let pageTitle = document.createElement("h1");
+  const addTitle = (title, titleSize) => {
+    let pageTitle = document.createElement(titleSize || "h1");
     pageTitle.textContent = title || "Arbor Magna";
 
     content.appendChild(pageTitle);
@@ -60,6 +59,7 @@ const domComponents = () => {
   };
 
   return {
+    content,
     addDiv,
     addImage,
     addTitle,
@@ -67,12 +67,6 @@ const domComponents = () => {
   };
 };
 
-//function to create the menu page
-function renderMenuPage() {
-  const secondPage = domComponents();
-
-  secondPage.addTitle('Menu');
-}
 //function to delete all content inside the .container div
 
 const clearContainer = () => {
@@ -85,15 +79,25 @@ const clearContainer = () => {
 const menuButtonActions = (buttonId) => {
   let btn = document.querySelector(`${buttonId}`);
   btn.addEventListener("click", () => {
-    clearContainer();
-    renderMenuPage();
+    switch (buttonId) {
+      case "#menu":
+        clearContainer();
+        renderMenuPage();
+        menuButtonActions("#home");
+        break;
+      case "#home":
+        clearContainer();
+        renderFirstPage();
+        menuButtonActions("#menu");
+        break;
+    }
   });
 };
 
-// IIFE to render first page on page load
+// function to render first page on page load
 function renderFirstPage() {
   const firstPage = domComponents();
-
+  firstPage.content.classList.add("homePage");
   firstPage.addTitle();
   firstPage.addImage(restaurant);
   firstPage.addDiv();
@@ -116,9 +120,55 @@ function renderFirstPage() {
   firstPage.addFooter();
 }
 
+//function to create the menu page
+function renderMenuPage() {
+  const secondPage = domComponents();
+  secondPage.content.classList.add("menuPage");
+
+  secondPage.addTitle("Menu", "h1");
+
+  secondPage.addTitle("Starters (Primi Piatti)", "h2");
+
+  secondPage.addTitle("Romanesco Soup with Truffle Dust (6€)", "h3");
+  secondPage.addImage(soup);
+  secondPage.addDiv(
+    "A creamy blend of Romanesco broccoli, toasted almonds, and pecorino cheese, finished with a touch of luxurious truffle dust. (Vegetarian)"
+  );
+
+  secondPage.addTitle("Main Courses (Secondi Piatti)", "h2");
+
+  secondPage.addTitle("Pan-Seared Salmon with Hippocras Glaze (22€)", "h3");
+  secondPage.addImage(salmon);
+  secondPage.addDiv(
+    "Fresh salmon cooked to perfection, glazed with a medieval spiced wine sauce of honey, cinnamon, and ginger. Served with roasted root vegetables."
+  );
+
+  secondPage.addTitle(
+    "Lamb Tajine with Apricot and Pistachio Couscous (24€)",
+    "h3"
+  );
+  secondPage.addImage(cuscus);
+  secondPage.addDiv(
+    "Slow-cooked Moroccan lamb in a fragrant stew with apricots, toasted almonds, and warm spices. Served on a bed of fluffy couscous with pistachios."
+  );
+
+  secondPage.addTitle("Desserts (Dolci)", "h2");
+
+  secondPage.addTitle("Baklava Cheesecake (8€)", "h3");
+  secondPage.addImage(cheeseCake);
+  secondPage.addDiv(
+    "A decadent twist on a classic cheesecake, layered with flaky phyllo dough, chopped nuts, and honey syrup."
+  );
+
+  secondPage.addTitle("Chocolate Aztec Chili Pot (7€)", "h3");
+  secondPage.addImage(chili);
+  secondPage.addDiv(
+    "A rich dark chocolate mousse infused with a hint of chili pepper, served in a dark chocolate cup and garnished with candied pumpkin seeds. (Vegan)"
+  );
+}
+
 // test();
 renderFirstPage();
-menuButtonActions('#menu');
-menuButtonActions('#about');
-menuButtonActions('#location');
-
+menuButtonActions("#menu");
+menuButtonActions("#about");
+menuButtonActions("#location");
