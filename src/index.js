@@ -3,6 +3,12 @@ import waiterFood from "./images/restaurant.jpg";
 import restaurant from "./images/restaurantOutside.jpg";
 import foodPics from "./images/foodPics.jpg";
 import restaurantInside from "./images/restaurantInside.jpg";
+import cheeseCake from "./images/cheesecakeImg.jpg";
+import chili from "./images/chiliImg.jpg";
+import cuscus from "./images/cuscusImg.jpg";
+import salmon from "./images/salmonImg.jpg";
+import soup from "./images/soupImg.jpg";
+
 
 // create content container
 const createContainer = () => {
@@ -13,9 +19,10 @@ const createContainer = () => {
 };
 
 // factory function to create the first page and the main content elements
-const titlePage = () => {
+const domComponents = () => {
   createContainer();
   let content = document.querySelector(".content");
+  content.classList.add('homePage');
   const addDiv = (text) => {
     let newDiv = document.createElement("div");
     let newPara = document.createElement("p");
@@ -35,9 +42,9 @@ const titlePage = () => {
     content.appendChild(myIcon);
   };
 
-  const addTitle = () => {
+  const addTitle = (title) => {
     let pageTitle = document.createElement("h1");
-    pageTitle.textContent = "Arbor Magna";
+    pageTitle.textContent = title || "Arbor Magna";
 
     content.appendChild(pageTitle);
   };
@@ -60,6 +67,12 @@ const titlePage = () => {
   };
 };
 
+//function to create the menu page
+function renderMenuPage() {
+  const secondPage = domComponents();
+
+  secondPage.addTitle('Menu');
+}
 //function to delete all content inside the .container div
 
 const clearContainer = () => {
@@ -73,12 +86,13 @@ const menuButtonActions = (buttonId) => {
   let btn = document.querySelector(`${buttonId}`);
   btn.addEventListener("click", () => {
     clearContainer();
+    renderMenuPage();
   });
 };
 
 // IIFE to render first page on page load
 function renderFirstPage() {
-  const firstPage = titlePage();
+  const firstPage = domComponents();
 
   firstPage.addTitle();
   firstPage.addImage(restaurant);
