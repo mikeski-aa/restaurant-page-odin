@@ -9,6 +9,7 @@ import cuscus from "./images/cuscusImg.jpeg";
 import salmon from "./images/salmonImg.jpg";
 import soup from "./images/soupImg.jpg";
 import location from "./images/location.png";
+import backBooze from "./images/backBooze.jpg";
 
 // create content container
 const createContainer = () => {
@@ -18,11 +19,37 @@ const createContainer = () => {
   body.appendChild(newContent);
 };
 
+// create item container
+
+const createTestContainer = (newContainerName) => {
+  let body = document.querySelector(`.content`);
+  let newContent = document.createElement("div");
+  newContent.classList.add(newContainerName);
+
+  body.appendChild(newContent);
+};
+
+// function to put items in a box
+function putInBox(targetBox, targetClass, numberOfItems) {
+  for (let i = 0; i < numberOfItems; i++) {
+    let body = document.querySelector("body");
+    let box = document.querySelector(targetBox);
+    let divs = body.querySelector(targetClass);
+    box.appendChild(divs);
+  }
+}
+
+//function to repeat putting stuff in a container
+function repeatPutInBox() {
+  putInBox(".menuContent", "h3", 1);
+  putInBox(".menuContent", "img", 1);
+  putInBox(".menuContent", ".para", 1);
+}
+
 // factory function to create different DOM elements
 const domComponents = () => {
   createContainer();
   let content = document.querySelector(".content");
-
   const addDiv = (text) => {
     let newDiv = document.createElement("div");
     let newPara = document.createElement("p");
@@ -83,22 +110,18 @@ const menuButtonActions = (buttonId) => {
     clearContainer();
     switch (buttonId) {
       case "#menu":
-        
         renderMenuPage();
 
         break;
       case "#home":
-     
         renderFirstPage();
 
         break;
       case "#about":
-  
         renderAboutPage();
 
         break;
       case "#location":
-      
         renderLocationPage();
 
         break;
@@ -108,9 +131,11 @@ const menuButtonActions = (buttonId) => {
 
 // function to render first page on page load
 function renderFirstPage() {
-  const firstPage = domComponents();
+  const firstPage = domComponents(0);
   firstPage.content.classList.add("homePage");
+
   firstPage.addTitle();
+
   firstPage.addImage(restaurant);
   firstPage.addDiv();
 
@@ -128,6 +153,13 @@ function renderFirstPage() {
   firstPage.addDiv(
     "Arbor Magna's menu is a journey through time on a plate. Imagine Roman flatbreads drizzled with truffle honey, or a Viking-inspired roasted boar with berry reduction. Modern touches elevate the classics: think molecular foams infused with ancient herbs, or delicate desserts reimagining forgotten spices. Every bite promises a surprising, delicious link to the past."
   );
+
+// put content in one container
+  createTestContainer("mainContent");
+  for (let i = 0; i < 4; i++) {
+    putInBox(".mainContent", "img", 1);
+    putInBox(".mainContent", ".para", 1);
+  }
 
   firstPage.addFooter();
 }
@@ -177,6 +209,18 @@ function renderMenuPage() {
   secondPage.addDiv(
     "A rich dark chocolate mousse infused with a hint of chili pepper, served in a dark chocolate cup and garnished with candied pumpkin seeds. (Vegan)"
   );
+  createTestContainer("menuContent");
+
+// put content in one container
+  for (let i = 0; i < 2; i++) {
+    putInBox(".menuContent", "h2", 1);
+    repeatPutInBox();
+  }
+  repeatPutInBox();
+  putInBox(".menuContent", "h2", 1);
+  repeatPutInBox();
+  repeatPutInBox();
+
   secondPage.addFooter();
 }
 
@@ -187,13 +231,15 @@ function renderAboutPage() {
   aboutPage.content.classList.add("aboutPage");
 
   aboutPage.addTitle("About Arbor Magna", "h1");
-  aboutPage.addImage(restaurantInside);
+  // aboutPage.addImage(restaurantInside);
   aboutPage.addDiv(
     `Arbor Magna, meaning "Great Tree," isn't just a Berlin restaurant; it's a historical culinary journey. Founded by archaeologist couple Amelia and David, the restaurant uses fresh ingredients to reimagine dishes from forgotten civilizations. Sunlight spills through murals depicting botanical wonders, casting warmth on exposed brick walls and emerald green booths. Antique brass lights and gentle conversation create a refined atmosphere.`
   );
   aboutPage.addDiv(
     `Amelia's menu explores the past with a modern touch. Roman flatbreads with truffle honey or Viking-inspired boar with berry reduction share space with modern creations – think molecular foams infused with ancient herbs. The knowledgeable staff, some with backgrounds in history, act as your guides, sharing the stories behind each dish. From pre-dinner drinks inspired by historical libations to after-dinner botanical curiosities, Arbor Magna offers a truly immersive dining experience.`
   );
+  createTestContainer("aboutContent");
+  putInBox(".aboutContent", ".para", 2);
 
   aboutPage.addFooter();
 }
@@ -205,6 +251,10 @@ function renderLocationPage() {
   locationPage.addTitle("Where to find us", "h1");
   locationPage.addDiv(`52.509434, 13.289474`);
   locationPage.addImage(location);
+
+  createTestContainer("locationContent");
+  putInBox(".locationContent", ".para", 1);
+  putInBox(".locationContent", "img", 1);
 
   locationPage.addFooter();
 }
